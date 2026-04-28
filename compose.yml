@@ -18,7 +18,7 @@ services:
 
   backend:
     build:
-      context: ..
+      context: .
       dockerfile: docker/backend.Dockerfile
     container_name: nexplore-backend
     depends_on:
@@ -38,7 +38,7 @@ services:
 
   frontend:
     build:
-      context: ..
+      context: .
       dockerfile: docker/frontend.Dockerfile
     container_name: nexplore-frontend
     depends_on:
