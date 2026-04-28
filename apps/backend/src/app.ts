@@ -1,10 +1,17 @@
 import express, { type Express } from 'express';
 import { Pool } from 'pg';
+import swaggerUi from 'swagger-ui-express';
+import { openApiDocument } from './openapi';
 
 export function createApp(pool?: Pool): Express {
     const app = express();
 
     app.use(express.json());
+    app.use('/docs', swaggerUi.serve, swaggerUi.setup(openApiDocument));
+
+    app.get('/docs.json', (_request, response) => {
+        response.json(openApiDocument);
+    });
 
     app.get('/', (_request, response) => {
         response.json({

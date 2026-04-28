@@ -4,6 +4,7 @@
     "moduleResolution": "Node16",
     "esModuleInterop": true,
     "declaration": true,
+    "isolatedModules": true,
     "removeComments": true,
     "allowSyntheticDefaultImports": true,
     "target": "ES2023",
