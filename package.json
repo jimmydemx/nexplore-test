@@ -4,7 +4,9 @@
     "packageManager": "pnpm@10.0.0",
     "scripts": {
         "build:types": "corepack pnpm --filter @nexplore-test/shared-types build",
-        "build:utils": "corepack pnpm --filter @nexplore-test/shared-utils build"
+        "build:utils": "corepack pnpm --filter @nexplore-test/shared-utils build",
+        "dev:react": "corepack pnpm --filter @nexplore-test/frontend dev",
+        "build:react": "corepack pnpm --filter @nexplore-test/frontend build"
     },
     "dependencies": {
         "@nexplore-test/shared-types": "workspace:*",
