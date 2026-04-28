@@ -1,0 +1,11 @@
+{
+    "name": "@nexplore-test/shared-utils",
+    "private": true,
+    "version": "0.0.1",
+    "description": "Shared utils for nexplore-test",
+    
+    "packageManager": "pnpm@10.0.0",
+    "scripts": {
+        "build": "tsc -p tsconfig.json"
+    }
+}

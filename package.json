@@ -1,0 +1,16 @@
+{
+    "name": "nexplore-test",
+    "private": true,
+    "packageManager": "pnpm@10.0.0",
+    "scripts": {
+        "build:types": "corepack pnpm --filter @nexplore-test/shared-types build",
+        "build:utils": "corepack pnpm --filter @nexplore-test/shared-utils build"
+    },
+    "dependencies": {
+        "@nexplore-test/shared-types": "workspace:*",
+        "@nexplore-test/shared-utils": "workspace:*"
+    },
+    "devDependencies": {
+        "ts-node": "^10.9.2"
+    }
+}

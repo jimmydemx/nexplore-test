@@ -1,0 +1,10 @@
+{
+    "name": "@nexplore-test/shared-types",
+    "private": true,
+    "version": "0.0.1",
+    "description": "Shared types for nexplore-test",
+    "packageManager": "pnpm@10.0.0",
+    "scripts": {
+        "build": "tsc -p tsconfig.json"
+    }   
+}
