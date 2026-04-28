@@ -6,7 +6,10 @@
         "build:types": "corepack pnpm --filter @nexplore-test/shared-types build",
         "build:utils": "corepack pnpm --filter @nexplore-test/shared-utils build",
         "dev:react": "corepack pnpm --filter @nexplore-test/frontend dev",
-        "build:react": "corepack pnpm --filter @nexplore-test/frontend build"
+        "build:react": "corepack pnpm --filter @nexplore-test/frontend build",
+        "dev:backend": "corepack pnpm --filter @nexplore-test/backend start:dev",
+        "dev:backend:prod": "corepack pnpm --filter @nexplore-test/backend start:prod",
+        "build:backend": "corepack pnpm --filter @nexplore-test/backend build"
     },
     "dependencies": {
         "@nexplore-test/shared-types": "workspace:*",
