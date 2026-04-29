@@ -5,6 +5,14 @@ import path from 'node:path'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+      },
+    },
+  },
   resolve: {
     alias: {
       '@nexplore-test/shared-types': path.resolve(__dirname, '../../packages/shared-types/src/index.ts'),
