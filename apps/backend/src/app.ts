@@ -1,6 +1,7 @@
 import express, { type Express } from 'express';
 import { Pool } from 'pg';
 import swaggerUi from 'swagger-ui-express';
+import { createDutiesRouter } from './duties';
 import { openApiDocument } from './openapi';
 
 export function createApp(pool?: Pool): Express {
@@ -8,6 +9,7 @@ export function createApp(pool?: Pool): Express {
 
     app.use(express.json());
     app.use('/docs', swaggerUi.serve, swaggerUi.setup(openApiDocument));
+    app.use('/api/duties', createDutiesRouter(pool));
 
     app.get('/docs.json', (_request, response) => {
         response.json(openApiDocument);
