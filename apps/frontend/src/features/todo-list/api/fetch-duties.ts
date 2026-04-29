@@ -1,5 +1,6 @@
-import { getMockDuties } from './mock-duties';
+import type { DutiesVo } from '@nexplore-test/shared-types';
+import { apiRequest } from '../../../lib/api-client';
 
 export async function fetchDuties() {
-    return Promise.resolve(getMockDuties());
+    return apiRequest<DutiesVo>('/api/duties');
 }

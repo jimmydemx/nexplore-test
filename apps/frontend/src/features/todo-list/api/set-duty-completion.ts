@@ -1,4 +1,5 @@
-import { setMockDutyCompletion } from './mock-duties';
+import type { DutyDto } from '@nexplore-test/shared-types';
+import { apiRequest } from '../../../lib/api-client';
 
 export type SetDutyCompletionInput = {
     id: string;
@@ -9,5 +10,8 @@ export async function setDutyCompletion({
     id,
     completed,
 }: SetDutyCompletionInput) {
-    return Promise.resolve(setMockDutyCompletion(id, completed));
+    return apiRequest<DutyDto>(`/api/duties/${id}/completion`, {
+        method: 'PATCH',
+        body: { completed },
+    });
 }

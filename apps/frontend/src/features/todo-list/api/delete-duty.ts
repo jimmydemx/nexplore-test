@@ -1,5 +1,7 @@
-import { removeMockDuty } from './mock-duties';
+import { apiRequest } from '../../../lib/api-client';
 
 export async function deleteDuty(id: string) {
-    return Promise.resolve(removeMockDuty(id));
+    return apiRequest<void>(`/api/duties/${id}`, {
+        method: 'DELETE',
+    });
 }

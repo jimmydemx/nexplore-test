@@ -1,12 +1,8 @@
 import type { DutyDto } from '@nexplore-test/shared-types';
-import { addMockDuty } from './mock-duties';
+import { apiRequest } from '../../../lib/api-client';
 
 export type CreateDutyInput = Pick<DutyDto, 'name'> &
     Partial<Pick<DutyDto, 'id' | 'completed'>>;
-
-function createDutyId() {
-    return crypto.randomUUID();
-}
 
 function normalizeDutyName(name: string) {
     const normalizedName = name.trim();
@@ -21,11 +17,10 @@ function normalizeDutyName(name: string) {
 export async function createDuty(duty: CreateDutyInput) {
     const name = normalizeDutyName(duty.name);
 
-    return Promise.resolve(
-        addMockDuty({
-            id: duty.id ?? createDutyId(),
+    return apiRequest<DutyDto>('/api/duties', {
+        method: 'POST',
+        body: {
             name,
-            completed: duty.completed ?? false,
-        }),
-    );
+        },
+    });
 }

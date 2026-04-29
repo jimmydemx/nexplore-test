@@ -1,5 +1,5 @@
 import type { DutyDto } from '@nexplore-test/shared-types';
-import { updateMockDuty } from './mock-duties';
+import { apiRequest } from '../../../lib/api-client';
 
 export type ModifyDutyInput = {
     id: string;
@@ -17,10 +17,10 @@ function normalizeDutyName(name: string) {
 }
 
 export async function modifyDuty({ id, duty }: ModifyDutyInput) {
-    return Promise.resolve(
-        updateMockDuty(id, {
-            ...duty,
+    return apiRequest<DutyDto>(`/api/duties/${id}`, {
+        method: 'PATCH',
+        body: {
             name: normalizeDutyName(duty.name),
-        }),
-    );
+        },
+    });
 }
