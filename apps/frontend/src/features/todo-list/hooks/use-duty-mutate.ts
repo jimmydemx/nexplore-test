@@ -43,10 +43,6 @@ export function useDutyMutations() {
         createDuty: createDutyMutation.mutateAsync,
         deleteDuty: deleteDutyMutation.mutateAsync,
         modifyDuty: modifyDutyMutation.mutateAsync,
-        completeDuty: (id: string) =>
-            setDutyCompletionMutation.mutateAsync({ id, completed: true }),
-        uncompleteDuty: (id: string) =>
-            setDutyCompletionMutation.mutateAsync({ id, completed: false }),
         setDutyCompletion: setDutyCompletionMutation.mutateAsync,
         isCreating: createDutyMutation.isPending,
         isDeleting: deleteDutyMutation.isPending,
