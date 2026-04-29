@@ -6,7 +6,7 @@ type Props = {
     duty: DutyDto;
     onChangeCompletion: ({ id, completed }: { id: string; completed: boolean }) => void;
     onDeleteDuty: (id: string) => void;
-    onModifyDuty: (id: string, duty: DutyDto) => void;
+    onModifyDuty: (id: string, duty: DutyDto) => Promise<void>;
     isBusy?: boolean;
 };
 
@@ -19,32 +19,48 @@ export function TodoItem({
 }: Props) {
     const [isEditing, setIsEditing] = useState(false);
     const [draftName, setDraftName] = useState(duty.name);
+    const [renameError, setRenameError] = useState('');
 
     const handleToggleEditing = () => {
         if (isEditing) {
             setDraftName(duty.name);
+            setRenameError('');
             setIsEditing(false);
             return;
         }
 
         setDraftName(duty.name);
+        setRenameError('');
         setIsEditing(true);
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         const nextName = draftName.trim();
 
-        if (!nextName || nextName === duty.name) {
+        if (!nextName) {
+            setRenameError('Duty name cannot be empty.');
+            return;
+        }
+
+        if (nextName === duty.name) {
+            setRenameError('');
             setIsEditing(false);
             setDraftName(duty.name);
             return;
         }
 
-        onModifyDuty(duty.id, {
-            ...duty,
-            name: nextName,
-        });
-        setIsEditing(false);
+        try {
+            setRenameError('');
+            await onModifyDuty(duty.id, {
+                ...duty,
+                name: nextName,
+            });
+            setIsEditing(false);
+        } catch (modifyError) {
+            setRenameError(
+                modifyError instanceof Error ? modifyError.message : 'Unable to rename duty.',
+            );
+        }
     };
 
     return (
@@ -61,14 +77,27 @@ export function TodoItem({
 
                     <div className="todo-item__content">
                         {isEditing ? (
-                            <Input
-                                value={draftName}
-                                onChange={(event) => setDraftName(event.target.value)}
-                                onPressEnter={handleSave}
-                                onBlur={handleSave}
-                                autoFocus
-                                disabled={isBusy}
-                            />
+                            <Flex vertical gap={6} className="todo-item__editor">
+                                <Input
+                                    value={draftName}
+                                    status={renameError ? 'error' : undefined}
+                                    onChange={(event) => {
+                                        setDraftName(event.target.value);
+                                        setRenameError('');
+                                    }}
+                                    onPressEnter={() => {
+                                        void handleSave();
+                                    }}
+                                    onBlur={() => {
+                                        void handleSave();
+                                    }}
+                                    autoFocus
+                                    disabled={isBusy}
+                                />
+                                {renameError ? (
+                                    <Typography.Text type="danger">{renameError}</Typography.Text>
+                                ) : null}
+                            </Flex>
                         ) : (
                             <Typography.Text
                                 className={duty.completed ? 'todo-item__name todo-item__name--completed' : 'todo-item__name'}

@@ -8,6 +8,7 @@ import './todo-list-page.css';
 
 export function TodoListPage() {
     const [draftName, setDraftName] = useState('');
+    const [createInputBoxError, setCreateInputBoxError] = useState('');
     const { duties, isLoading, isError, error } = useDutiesQuery();
     const {
         createDuty,
@@ -27,11 +28,19 @@ export function TodoListPage() {
         const nextName = value.trim();
 
         if (!nextName) {
+            setCreateInputBoxError('Duty name cannot be empty.');
             return;
         }
 
-        await createDuty({ name: nextName });
-        setDraftName('');
+        try {
+            setCreateInputBoxError('');
+            await createDuty({ name: nextName });
+            setDraftName('');
+        } catch (createError) {
+            setCreateInputBoxError(
+                createError instanceof Error ? createError.message : 'Unable to create duty.',
+            );
+        }
     };
 
     const handleModifyDuty = async (id: string, duty: DutyDto) => {
@@ -69,13 +78,21 @@ export function TodoListPage() {
                         size="large"
                         enterButton="Add duty"
                         placeholder="Add a new duty"
+                        status={createInputBoxError ? 'error' : undefined}
                         value={draftName}
-                        onChange={(event) => setDraftName(event.target.value)}
+                        onChange={(event) => {
+                            setDraftName(event.target.value);
+                            setCreateInputBoxError('');
+                        }}
                         onSearch={(value) => {
                             void handleCreateDuty(value);
                         }}
                         loading={isCreating}
                     />
+
+                    {createInputBoxError ? (
+                        <Typography.Text type="danger">{createInputBoxError}</Typography.Text>
+                    ) : null}
 
                     {isError ? <Alert type="error" showIcon message="Request failed" description={errorMessage} /> : null}
 
@@ -101,9 +118,7 @@ export function TodoListPage() {
                                     onDeleteDuty={(id) => {
                                         void deleteDuty(id);
                                     }}
-                                    onModifyDuty={(id, duty) => {
-                                        void handleModifyDuty(id, duty);
-                                    }}
+                                    onModifyDuty={handleModifyDuty}
                                     isBusy={isDeleting || isModifying || isSettingCompletion}
                                 />
                             </List.Item>

@@ -8,11 +8,23 @@ function createDutyId() {
     return crypto.randomUUID();
 }
 
+function normalizeDutyName(name: string) {
+    const normalizedName = name.trim();
+
+    if (!normalizedName) {
+        throw new Error('Duty name cannot be empty.');
+    }
+
+    return normalizedName;
+}
+
 export async function createDuty(duty: CreateDutyInput) {
+    const name = normalizeDutyName(duty.name);
+
     return Promise.resolve(
         addMockDuty({
             id: duty.id ?? createDutyId(),
-            name: duty.name,
+            name,
             completed: duty.completed ?? false,
         }),
     );
