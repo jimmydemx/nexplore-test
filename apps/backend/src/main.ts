@@ -1,4 +1,7 @@
+import { loadEnv } from './load-env';
 import { createApp, createPool } from './app';
+
+loadEnv();
 
 async function bootstrap() {
   const pool = createPool();

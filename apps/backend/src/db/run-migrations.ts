@@ -1,6 +1,9 @@
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { Pool } from 'pg';
+import { loadEnv } from '../load-env';
+
+loadEnv();
 
 type AppliedMigrationRow = {
     filename: string;
