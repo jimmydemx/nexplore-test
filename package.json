@@ -5,6 +5,10 @@
     "scripts": {
         "build:types": "corepack pnpm --filter @nexplore-test/shared-types build",
         "build:utils": "corepack pnpm --filter @nexplore-test/shared-utils build",
+        "db:logs": "docker compose logs -f postgres",
+        "db:migrate": "corepack pnpm --filter @nexplore-test/backend db:migrate",
+        "db:start": "docker compose up -d postgres",
+        "db:stop": "docker compose stop postgres",
         "dev:react": "corepack pnpm --filter @nexplore-test/frontend dev",
         "build:react": "corepack pnpm --filter @nexplore-test/frontend build",
         "dev:backend": "corepack pnpm --filter @nexplore-test/backend start:dev",

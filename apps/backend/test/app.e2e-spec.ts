@@ -28,4 +28,11 @@ describe('Express backend (e2e)', () => {
       .expect(200)
       .expect(openApiDocument);
   });
+
+  it('/api/duties (GET) returns database-not-configured without a pool', () => {
+    return request(app)
+      .get('/api/duties')
+      .expect(503)
+      .expect({ message: 'Database is not configured.' });
+  });
 });
