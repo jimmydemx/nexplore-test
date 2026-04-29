@@ -1,0 +1,86 @@
+.todo-page {
+    width: min(760px, 100%);
+    padding: 40px 20px 56px;
+    box-sizing: border-box;
+}
+
+.todo-page__card {
+    border-radius: 28px;
+    overflow: hidden;
+    border: 1px solid rgba(18, 24, 38, 0.08);
+    box-shadow: 0 28px 60px rgba(16, 24, 40, 0.08);
+}
+
+.todo-page__card .ant-card-body {
+    padding: 28px;
+}
+
+.todo-page__stack {
+    width: 100%;
+}
+
+.todo-page__hero {
+    display: grid;
+    gap: 20px;
+}
+
+.todo-page__title.ant-typography {
+    margin-bottom: 8px;
+}
+
+.todo-page__subtitle.ant-typography {
+    margin-bottom: 0;
+    max-width: 56ch;
+    color: #5b6475;
+}
+
+.todo-page__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.todo-page__stat {
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(18, 24, 38, 0.08);
+}
+
+.todo-page__list .ant-list-items {
+    display: grid;
+    gap: 12px;
+}
+
+.todo-page__list-item {
+    padding: 0 !important;
+    border-block-end: none !important;
+}
+
+.todo-item {
+    width: 100%;
+    padding: 18px 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(18, 24, 38, 0.08);
+    background: rgba(255, 255, 255, 0.9);
+    box-sizing: border-box;
+}
+
+.todo-item__main {
+    flex: 1;
+    min-width: 0;
+}
+
+.todo-item__content {
+    flex: 1;
+    min-width: 220px;
+}
+
+.todo-item__name.ant-typography {
+    font-size: 16px;
+    color: #1f2937;
+}
+
+.todo-item__name--completed.ant-typography {
+    color: #8c8c8c;
+    text-decoration: line-through;
+}
