@@ -9,6 +9,11 @@ const initialDuties: DutiesVo = [
 
 let dutiesStore: DutiesVo = [...initialDuties];
 
+export function resetMockDuties(): DutiesVo {
+    dutiesStore = [...initialDuties];
+    return getMockDuties();
+}
+
 export function getMockDuties(): DutiesVo {
     return [...dutiesStore];
 }
