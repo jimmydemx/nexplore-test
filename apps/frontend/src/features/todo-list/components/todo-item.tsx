@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { DutyDto } from '@nexplore-test/shared-types';
 import { Button, Checkbox, Flex, Input, Popconfirm, Tag, Typography } from 'antd';
 
@@ -20,9 +20,16 @@ export function TodoItem({
     const [isEditing, setIsEditing] = useState(false);
     const [draftName, setDraftName] = useState(duty.name);
 
-    useEffect(() => {
+    const handleToggleEditing = () => {
+        if (isEditing) {
+            setDraftName(duty.name);
+            setIsEditing(false);
+            return;
+        }
+
         setDraftName(duty.name);
-    }, [duty.name]);
+        setIsEditing(true);
+    };
 
     const handleSave = () => {
         const nextName = draftName.trim();
@@ -78,7 +85,7 @@ export function TodoItem({
                     </Tag>
                     <Button
                         type="text"
-                        onClick={() => setIsEditing((currentValue) => !currentValue)}
+                        onClick={handleToggleEditing}
                         disabled={isBusy}
                     >
                         {isEditing ? 'Cancel' : 'Rename'}
