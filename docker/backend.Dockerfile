@@ -9,10 +9,9 @@ COPY apps/backend ./apps/backend
 COPY packages ./packages
 
 RUN pnpm install --frozen-lockfile
-RUN pnpm --filter @nexplore-test/shared-types build
-RUN pnpm --filter @nexplore-test/backend build
+RUN find apps/backend -name '*.tsbuildinfo' -delete && pnpm --filter @nexplore-test/backend build
 
 ENV NODE_ENV=production
 EXPOSE 3000
 
-CMD ["pnpm", "--filter", "@nexplore-test/backend", "start:prod"]
+CMD ["pnpm", "--filter", "@nexplore-test/backend", "start:container"]
