@@ -1,26 +1,45 @@
 
-
 import { deleteDuty } from './delete-duty';
-import { getMockDuties, resetMockDuties } from './mock-duties';
+
+function createMockResponse<T>(data: T, status: number) {
+    return {
+        ok: status >= 200 && status < 300,
+        status,
+        json: async () => data,
+    } as Response;
+}
+
 describe('deleteDuty', () => {
+    const fetchMock = jest.fn() as jest.MockedFunction<typeof fetch>;
 
     beforeEach(() => {
-        resetMockDuties();
+        fetchMock.mockReset();
+        globalThis.fetch = fetchMock;
     });
 
-    it('should delete a duty if id is in store', async () => {
-        const duty = { id: '1', name: 'Duty 1' };
-        await deleteDuty(duty.id);   
-        expect(getMockDuties()).not.toContain(duty);
+    it('deletes a duty by id through the API', async () => {
+        fetchMock.mockResolvedValue({
+            ok: true,
+            status: 204,
+            json: async () => undefined,
+        } as Response);
+
+        await deleteDuty('1');
+
+        expect(fetchMock).toHaveBeenCalledWith('/api/duties/1', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: undefined,
+        });
     });
 
+    it('surfaces API errors when deletion fails', async () => {
+        fetchMock.mockResolvedValue(
+            createMockResponse({ message: 'Duty not found.' }, 404),
+        );
 
-        it('should not delete any duty if id is not in store', async () => {
-        const duty = {id:'non-existent-id',name:'Duty not exist'};
-        const length = getMockDuties().length;
-        await deleteDuty(duty.id);
-        expect(getMockDuties()).not.toContain(duty);
-        expect(getMockDuties().length).toBe(length);
-
-        })
+        await expect(deleteDuty('missing-id')).rejects.toThrow('Duty not found.');
+    });
 });
